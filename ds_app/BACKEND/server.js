@@ -8,7 +8,7 @@ const app = express();
 require("dotenv").config();
 
 //routes
-const userRoutes = require('D:/Ds-REST-API-Project/ds_app/BACKEND/src/routes/user');
+const userRoutes = require('./src/routes/user');
 
 const PORT = process.env.PORT || 4000;
 
