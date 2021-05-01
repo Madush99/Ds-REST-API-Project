@@ -4,7 +4,7 @@
   "description": "e commerce web pplication ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
   "author": "Madusanka,Agasthi,Ushini and Bulner",
   "license": "ISC",
