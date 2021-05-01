@@ -10,27 +10,28 @@ require("dotenv").config();
 //routes
 const userRoutes = require('D:/Ds-REST-API-Project/ds_app/BACKEND/src/routes/user');
 
+//give port address
 const PORT = process.env.PORT || 4000;
 
 
-
+//call mongodb url
 const URL = process.env.MONGODB_URL;
 
 
 
-//DB connection
+
 mongoose.connect(URL,{
     useCreateIndex:true,
     useNewUrlParser:true,
     useUnifiedTopologyL:true,
     useFindAndModify:false
 });
-
+//DB connection
 const connection = mongoose.connection;
 connection.once("open", () =>{
  console.log("Databse Connected !");
 })
-
+//calling port
 app.listen(PORT, () => {
     console.log(`Server running on port number:${PORT}`)
 })
