@@ -7,11 +7,16 @@ const dotenv = require("dotenv");
 const app = express();
 require("dotenv").config();
 
+//routes
+const userRoutes = require('D:/Ds-REST-API-Project/ds_app/BACKEND/src/routes/user');
+
 const PORT = process.env.PORT || 4000;
 
 
 
 const URL = process.env.MONGODB_URL;
+
+
 
 //DB connection
 mongoose.connect(URL,{
@@ -33,6 +38,6 @@ app.listen(PORT, () => {
 
 
 app.use(cors());
-app.use(bodyParser.json());
-app.use('/api', userRoutes);
+app.use(bodyParser);
+app.use('/user', userRoutes);
 
