@@ -10,7 +10,7 @@ require("dotenv").config();
 const PORT = process.env.PORT || 8070;
 
 app.use(cors());
-app.use(bodyParser());
+
 
 
 //call mongodb url
@@ -32,8 +32,11 @@ connection.once("open", () =>{
 
 //routes
 const authRoutes = require('./src/routes/auth');
+const adminRoutes = require('./src/routes/admin/auth');
 
+app.use(bodyParser());
 app.use("/api", authRoutes);
+app.use("/api", adminRoutes);
 
 //calling port
 app.listen(PORT, () => {
