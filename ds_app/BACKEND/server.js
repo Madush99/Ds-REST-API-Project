@@ -18,8 +18,6 @@ const PORT = process.env.PORT || 4000;
 const URL = process.env.MONGODB_URL;
 
 
-
-
 mongoose.connect(URL,{
     useCreateIndex:true,
     useNewUrlParser:true,
@@ -31,6 +29,13 @@ const connection = mongoose.connection;
 connection.once("open", () =>{
  console.log("Databse Connected !");
 })
+
+
+app.use(cors());
+app.use(bodyParser.json);
+app.use('/api', userRoutes);
+
+
 //calling port
 app.listen(PORT, () => {
     console.log(`Server running on port number:${PORT}`)
@@ -38,7 +43,5 @@ app.listen(PORT, () => {
 
 
 
-app.use(cors());
-app.use(bodyParser);
-app.use('/user', userRoutes);
+
 

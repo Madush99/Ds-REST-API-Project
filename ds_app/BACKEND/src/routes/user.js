@@ -23,6 +23,7 @@ router.post('/signup', (req, res) =>{
             passWrd
         } = req.body;
         const _user = new User({ firstName, lastName, email, passWrd, username:Math.random().toString()});
+        
         _user.save((error, data) => {
             if(error){
                 return res.status(400).json({
