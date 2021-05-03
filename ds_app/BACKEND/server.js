@@ -1,6 +1,5 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 require("dotenv").config();
@@ -8,9 +7,6 @@ require("dotenv").config();
 
 //port address
 const PORT = process.env.PORT || 8070;
-
-app.use(cors());
-
 
 
 //call mongodb url
@@ -33,10 +29,14 @@ connection.once("open", () =>{
 //routes
 const authRoutes = require('./src/routes/auth');
 const adminRoutes = require('./src/routes/admin/auth');
+const categoryRoutes = require('./src/routes/category');
 
-app.use(bodyParser());
+
+app.use(cors());
+app.use(express.json());
 app.use("/api", authRoutes);
 app.use("/api", adminRoutes);
+app.use("/api", categoryRoutes);
 
 //calling port
 app.listen(PORT, () => {
