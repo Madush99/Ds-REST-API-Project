@@ -5,6 +5,6 @@ const router = express.Router();
 
 
 router.post('/user/cart/addtocart', requireSignin, userMiddleware, addItemToCart); 
- console.log('ggg');
+ console.log('cart working');
 
 module.exports = router;
