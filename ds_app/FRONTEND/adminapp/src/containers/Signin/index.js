@@ -40,7 +40,7 @@ const Signin = (props) => {
   return(
     <Layout>
         <Container>
-            <Row style = {{ marginTop: '50px'}}>
+            <Row style = {{ marginTop: '70px'}}>
                 <Col md = {{span: 6, offset: 3}}>
                     <Form onSubmit={userLogin}>
                         <Input
