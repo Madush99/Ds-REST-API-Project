@@ -1,5 +1,6 @@
 const User = require('../../models/user');
 const jwt = require('jsonwebtoken');
+const shortid = require('shortid');
 
 exports.signup = (req,res) => {
 
@@ -15,13 +16,13 @@ exports.signup = (req,res) => {
         email,
         password
       } = req.body;
-  
+      //hashpassword
       const _user = new User({
         firstName,
         lastName,
         email,
         password,
-        username: Math.random().toString(),
+        username: shortid.generate(),
         role: 'admin'
       });
   
@@ -47,7 +48,7 @@ exports.signin = (req,res) => {
   .exec((error, user) =>{
     if(error) return res.status(400).json({ error });
     if(user){
-d
+
       if(user.authenticate(req.body.password) && user.role === 'admin'){
         const token = jwt.sign({_id: user._id, role: user.role}, process.env.JWT_SECRET, {expiresIn: '1d'});
         const { _id,firstName,lastName,email,role,fullName } = user;
