@@ -48,4 +48,4 @@ const productSchema = new mongoose.Schema({
     updatedAt: Date,
 }, { timestamps: true });
 
-module.exports = mongoose.model('Products', productSchema);
+module.exports = mongoose.model('Product', productSchema);
