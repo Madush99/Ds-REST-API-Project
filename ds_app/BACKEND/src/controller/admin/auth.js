@@ -5,43 +5,44 @@ const bcrypt = require('bcrypt');
 
 exports.signup = (req,res) => {
 
-    User.findOne({ email: req.body.email })
-    .exec((error,user)=> {
-      if(user) return res.status(400).json({
-        message:'Admin already registered!'
-      });
-  
-      const{
-        firstName,
-        lastName,
-        email,
-        password
-      } = req.body;
-
-      //hashpassword
-      const _user = new User({
-        firstName,
-        lastName,
-        email,
-        hash_password,
-        username: shortid.generate(),
-        role: 'admin'
-      });
-  
-      _user.save((error, data) => {
-        if(error){
-          return res.status(400).json({
-            message:"somthing wrong"
-          });
-        }
-  
-        if(data){
-             return res.status(201).json({
-                 message:'Admin created successfully...!'
-          })
-        }
-      });
+  User.findOne({ email: req.body.email })
+  .exec(async (error,user)=> {
+    if(user) return res.status(400).json({
+      message:'Admin already registered!'
     });
+
+    const{
+      firstName,
+      lastName,
+      email,
+      password
+    } = req.body;
+
+    //hashpassword
+    const hash_password = await bcrypt.hash(password, 10);
+    const _user = new User({
+      firstName,
+      lastName,
+      email,
+      hash_password,
+      username: shortid.generate(),
+      role: 'admin'
+    });
+
+    _user.save((error, data) => {
+      if(error){
+        return res.status(400).json({
+          message:"somthing wrong"
+        });
+      }
+
+      if(data){
+           return res.status(201).json({
+               message:'Admin created successfully...!'
+        })
+      }
+    });
+  });
 
 }
 

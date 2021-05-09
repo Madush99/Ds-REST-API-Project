@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 exports.signup = (req, res) => {
 
     User.findOne({ email: req.body.email })
-    .exec((error,user)=> {
+    .exec(async (error,user)=> {
       if(user) return res.status(400),json({
         message:'User already registered!'
       });
@@ -18,8 +18,9 @@ exports.signup = (req, res) => {
         email,
         password
       } = req.body;
+      
       //hashpassword
-  
+      const hash_password = await bcrypt.hash(password, 10);
       const _user = new User({
         firstName,
         lastName,
