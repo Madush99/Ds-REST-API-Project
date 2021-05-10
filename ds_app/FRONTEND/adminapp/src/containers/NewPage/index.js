@@ -7,6 +7,7 @@ import { Row, Col, Container } from 'react-bootstrap';
 import linearCategories from '../../helpers/linearCategories';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPage } from '../../actions';
+import { userConstants } from '../../actions/constants';
 
 /**
 * @author
@@ -23,8 +24,9 @@ const NewPage = (props) => {
     const [desc, setDesc] = useState('');
     const [type, setType] = useState('');
     const [banners, setBanners] = useState([]);
-    const [products, setproducts] = useState([]);
+    const [products, setProducts] = useState([]);
     const dispatch = useDispatch();
+    const page = useSelector(state => state.page);
 
     useEffect(() => {
 
@@ -32,8 +34,20 @@ const NewPage = (props) => {
 
     }, [category]);
 
+    useEffect(() => {
+        console.log(page);
+        if(!page.loading){
+            setCreateModal(false);
+            setTitle('');
+            setCategoryId('');
+            setDesc('');
+            setProducts([]);
+            setBanners([]);
+        }
+    }, [page])
+
     const onCategoryChange = (e) => {
-        const category = categories.find(category => category._id == e.target.value);
+        const category = categories.find(category => category.value == e.target.value);
         setCategoryId(e.target.value);
         setType(category.type);
     }
@@ -45,7 +59,7 @@ const NewPage = (props) => {
 
     const handleProductImages = (e) => {
         console.log(e);
-        setproducts([...products, e.target.files[0]]);
+        setProducts([...products, e.target.files[0]]);
     }
 
     const submitPageForm = (e) => {
@@ -78,25 +92,37 @@ const NewPage = (props) => {
             <Modal
                 show={createModal}
                 modalTitle={'Create New Page'}
-                handleClose={submitPageForm}
+                handleClose={() => setCreateModal(false)}
+                onSubmit={submitPageForm}
             >
                 <Container>
 
                     <Row>
                         <Col>
+                        {/*
                             <select
-                                className="form-control form-control-sm"
-                                value={categoryId}
-                                onChange={onCategoryChange}
-                            >
-                                <option value="">select category</option>
-                                {
-                                    categories.map(cat =>
-                                        <option key={cat._id} value={cat._id}>{cat.name}</option>)
-                                }
+                            className="form-control form-control-sm"
+                            value={categoryId}
+                            onChange={onCategoryChange}
+                        >
+                            <option value="">select category</option>
+                            {
+                                categories.map(cat =>
+                                    <option key={cat._id} value={cat._id}>{cat.name}</option>)
+                            }
 
 
-                            </select>
+                        </select>
+
+                        */}
+                        <Input 
+                            type="select"
+                            value={categoryId}
+                            onChange={onCategoryChange}
+                            options={categories}
+                            placeholder={'Select Category'}
+                        />
+                            
                         </Col>
                     </Row>
 
@@ -177,8 +203,17 @@ const NewPage = (props) => {
 
     return (
         <Layout sidebar>
-            {renderCreatePageModal()}
-            <button onClick={() => setCreateModal(true)}>Create Page</button>
+            {
+                page.loading ? 
+                <p>Creating page....please wait..</p>
+                :
+                <>
+                {renderCreatePageModal()}
+                <button onClick={() => setCreateModal(true)}>Create Page</button>
+                </>
+                
+            }
+            
         </Layout>
     )
 

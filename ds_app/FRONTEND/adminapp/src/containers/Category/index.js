@@ -45,13 +45,24 @@ const Category = (props) => {
     const dispatch = useDispatch();
 
 
+    useEffect(() => {
+        if(!category.loading){
+            setShow(false);
+        }
+
+    }, [category.loading])
+
+
 
     const handleClose = () => {
         
         const form = new FormData();
-        /*
-        alert("Name is Required...");
-        return;*/
+        
+        if(categoryName == ""){
+            alert('category name is required...')
+            setShow(false);
+            return;
+        }
 
         form.append('name', categoryName);
         form.append('parentId', parentCategoryId);
@@ -60,13 +71,6 @@ const Category = (props) => {
         setCategoryName('');
         setParentCategoryId('');
 
-        // const cat ={
-        //     categoryName,
-        //     parentCategoryId,
-        //     categoryImage
-        // };
-
-        //console.log(cat);
 
         setShow(false);
     }
@@ -149,7 +153,7 @@ const Category = (props) => {
             form.append('type', item.type);
         });
         dispatch(updateCategories(form));
-        setUpdateCategoryModal(false);
+        
     }
 
   
@@ -255,7 +259,8 @@ const Category = (props) => {
             </Container>
             <AddCategoryModal 
                 show={show}
-                handleClose={handleClose}
+                handleClose={() => setShow(false)}
+                onSubmit={handleClose}
                 modalTitle={'Add New Category'}
                 categoryName={categoryName}
                 setCategoryName={setCategoryName}
@@ -266,7 +271,8 @@ const Category = (props) => {
             />
             <UpdateCategoriesModal 
                 show={updatecategoryModal}
-                handleClose={updateCategoriesForm}
+                handleClose={() => setUpdateCategoryModal(false)}
+                onSubmit={updateCategoriesForm}
                 modalTitle={'Update Category'}
                 size="lg"
                 expandedArray={expandedArray}
